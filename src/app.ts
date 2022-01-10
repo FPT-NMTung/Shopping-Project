@@ -15,6 +15,11 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use('/', (req, res) => {
+  return res.status(200).json({
+    message: 'Welcome'
+  })
+})
 app.use('/', userRouter)
 app.use('/', productRouter)
 
