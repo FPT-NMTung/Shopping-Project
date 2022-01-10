@@ -18,15 +18,15 @@ const verifyInput = (
       return null
     }
 
-    if (minLength && input.length < minLength) {
+    if (minLength && input.trim().length < minLength) {
       return null
     }
 
-    if (maxLength && input.length > maxLength) {
+    if (maxLength && input.trim().length > maxLength) {
       return null
     }
 
-    if (pattern && !pattern.test(input)) {
+    if (pattern && !pattern.test(input.trim())) {
       return null
     }
 
