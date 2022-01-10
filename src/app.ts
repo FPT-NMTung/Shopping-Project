@@ -19,7 +19,7 @@ app.use('/', userRouter)
 app.use('/', productRouter)
 app.use('/', (req, res) => {
   return res.status(200).json({
-    message: 'Welcome'
+    message: 'Welcome to my API :) this is documentation for the API: https://documenter.getpostman.com/view/15242317/UVXetJnL'
   })
 })
 
