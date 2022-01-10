@@ -18,6 +18,6 @@ app.use((req, res, next) => {
 app.use('/', userRouter)
 app.use('/', productRouter)
 
-app.listen(3000, () => {
+app.listen(process.env.HOST || 5000, () => {
   console.log('---=== Server started ===---')
 })
