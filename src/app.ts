@@ -15,13 +15,13 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use('/', userRouter)
+app.use('/', productRouter)
 app.use('/', (req, res) => {
   return res.status(200).json({
     message: 'Welcome'
   })
 })
-app.use('/', userRouter)
-app.use('/', productRouter)
 
 app.listen(process.env.HOST || 5000, () => {
   console.log('---=== Server started ===---')
