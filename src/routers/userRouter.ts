@@ -6,4 +6,6 @@ router.post('/user/sign-up', UserController.signUp)
 
 router.post('/user/login', UserController.login)
 
+router.post('/user/active', UserController.active)
+
 export default router

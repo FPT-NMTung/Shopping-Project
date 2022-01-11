@@ -15,9 +15,9 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/', userRouter)
-app.use('/', productRouter)
-app.use('/', (req, res) => {
+app.use('/api', userRouter)
+app.use('/api', productRouter)
+app.use('/api', (req, res) => {
   return res.status(200).json({
     message: 'Welcome to my API :) this is documentation for the API: https://documenter.getpostman.com/view/15242317/UVXetJnL'
   })
