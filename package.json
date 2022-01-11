@@ -17,13 +17,16 @@
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
-    "mysql2": "^2.3.3"
+    "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.2",
+    "nodemailer-sendgrid-transport": "^0.2.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.6",
     "@types/node": "^17.0.8",
+    "@types/nodemailer": "^6.4.4",
     "nodemon": "^2.0.15"
   }
 }
