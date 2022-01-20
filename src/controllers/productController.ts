@@ -7,10 +7,7 @@ import jwt, {JwtPayload} from 'jsonwebtoken'
 class ProductController {
   public static getAllProduct = async (req: Request, res: Response): Promise<Response> => {
     const [data] = await Product.getAll()
-    return res.status(200).json({
-      message: 'Get all product success',
-      result: data
-    })
+    return res.status(200).json(data)
   }
 
   public static searchProduct = async (req: Request, res: Response): Promise<Response> => {
