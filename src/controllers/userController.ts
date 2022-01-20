@@ -98,6 +98,7 @@ class UserController {
     }
 
     const [searchUser] = await User.getByEmail(email)
+
     if (searchUser.length === 0) {
       return res.status(404).json({
         message: 'User not found'
