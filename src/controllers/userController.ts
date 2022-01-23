@@ -6,6 +6,7 @@ import verifyInput from '../common/commonFunction'
 import templateActiveCode from '../common/templateActiveCode'
 import SendMail from '../config/mailManager'
 import user from '../models/user'
+import Product from "../models/product";
 
 class UserController {
   public static signUp = async (req: Request, res: Response): Promise<Response> => {
@@ -176,6 +177,19 @@ class UserController {
     return res.status(200).json({
       message: 'Active success'
     })
+  }
+
+  public static getAll = async (req: Request, res: Response): Promise<Response> => {
+    const [data] = await User.getAll()
+
+    const newList = data.map((element: any) => {
+      return {
+        name: element.name,
+        email: element.email
+      }
+    })
+
+    return res.status(200).json(newList)
   }
 }
 

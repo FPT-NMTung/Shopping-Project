@@ -16,9 +16,9 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
 });
-app.use('/api', userRouter_1.default);
-app.use('/api', productRouter_1.default);
-app.use('/api', (req, res) => {
+app.use('/', userRouter_1.default);
+app.use('/', productRouter_1.default);
+app.use('/', (req, res) => {
     return res.status(200).json({
         message: 'Welcome to my API :) this is documentation for the API: https://documenter.getpostman.com/view/15242317/UVXetJnL'
     });
