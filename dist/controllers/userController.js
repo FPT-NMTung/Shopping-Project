@@ -157,4 +157,14 @@ UserController.active = async (req, res) => {
         message: 'Active success'
     });
 };
+UserController.getAll = async (req, res) => {
+    const [data] = await user_1.default.getAll();
+    const newList = data.map((element) => {
+        return {
+            name: element.name,
+            email: element.email
+        };
+    });
+    return res.status(200).json(newList);
+};
 exports.default = UserController;
