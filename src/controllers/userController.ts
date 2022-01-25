@@ -178,19 +178,6 @@ class UserController {
       message: 'Active success'
     })
   }
-
-  public static getAll = async (req: Request, res: Response): Promise<Response> => {
-    const [data] = await User.getAll()
-
-    const newList = data.map((element: any) => {
-      return {
-        name: element.name,
-        email: element.email
-      }
-    })
-
-    return res.status(200).json(newList)
-  }
 }
 
 export default UserController
