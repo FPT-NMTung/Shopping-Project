@@ -19,12 +19,19 @@ class User {
     // after 15 minutes, the active code will be expired
     const expiredAt = new Date(createdAt.getTime() + 15 * 60 * 1000)
 
-    return db.execute('insert into user (email, password, name, createdAt, updatedAt, codeActive, expCodeActive) values (?, ?, ?, ?, ?, ?, ?)',
+    return db.execute(
+      'insert into user (email, password, name, createdAt, updatedAt, codeActive, expCodeActive) values (?, ?, ?, ?, ?, ?, ?)',
       [email, password, name, createdAt, updatedAt, activeCode, expiredAt]) as Promise<RowDataPacket[]>
   }
 
   public static active(id: number) {
-    return db.execute('update user set codeActive = NULL, expCodeActive = NULL where id = ?', [id]) as Promise<RowDataPacket[]>
+    return db.execute('update user set codeActive = NULL, expCodeActive = NULL where id = ?',
+      [id]) as Promise<RowDataPacket[]>
+  }
+
+  public static changePassword(id: number, password: string) {
+    return db.execute('update user set password = ? where id = ?',
+      [password, id]) as Promise<RowDataPacket[]>
   }
 }
 

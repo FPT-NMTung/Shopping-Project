@@ -1,12 +1,10 @@
 import {Request, Response} from 'express'
 import bcrypt from 'bcrypt'
 import User from '../models/user'
-import jwt from 'jsonwebtoken'
+import jwt, {JwtPayload} from 'jsonwebtoken'
 import verifyInput from '../common/commonFunction'
 import templateActiveCode from '../common/templateActiveCode'
 import SendMail from '../config/mailManager'
-import user from '../models/user'
-import Product from "../models/product";
 
 class UserController {
   public static signUp = async (req: Request, res: Response): Promise<Response> => {
@@ -132,14 +130,14 @@ class UserController {
     userId = <number>verifyInput({
       input: userId,
       type: 'number',
-      required: true,
+      required: true
     })
     activeCode = <string>verifyInput({
       input: activeCode,
       type: 'string',
       required: true,
       minLength: 8,
-      maxLength: 8,
+      maxLength: 8
     })
 
     if (userId === null || activeCode === null) {
@@ -176,6 +174,63 @@ class UserController {
     await User.active(userId)
     return res.status(200).json({
       message: 'Active success'
+    })
+  }
+
+  public static changePassword = async (req: Request, res: Response) => {
+    const token = req.headers.authorization?.split(' ')[1]!
+    const payload = jwt.verify(token, 'nmtungofficial') as JwtPayload
+    const userId = payload['id']
+
+    let password = req.body.password as string
+    password = verifyInput({
+      input: password,
+      minLength: 8,
+      maxLength: 50,
+      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+      required: false,
+      type: 'string'
+    }) as string
+
+    if (password === null) {
+      return res.status(400).json({
+        message: 'Invalid input'
+      })
+    }
+
+    const hashPassword = await bcrypt.hash(password, 12)
+    await User.changePassword(userId, hashPassword)
+
+    return res.status(200).json({
+      message: 'Change password success'
+    })
+  }
+
+  public static getInformation = async (req: Request, res: Response) => {
+    let userId = Number.parseInt(req.query.id as string)
+    userId = verifyInput({
+      input: userId,
+      required: false,
+      type: 'number',
+    }) as number
+
+    let [data] = await User.getById(userId)
+
+    if (data.length === 0) {
+      return res.status(404).json({
+        message: 'User not found'
+      })
+    }
+
+    let temp = Object.assign({}, data)['0']
+
+    delete temp.password
+    delete temp.codeActive
+    delete temp.expCodeActive
+
+    return res.status(200).json({
+      message: 'Get information success',
+      data: temp,
     })
   }
 }

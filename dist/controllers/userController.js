@@ -117,14 +117,14 @@ UserController.active = async (req, res) => {
     userId = (0, commonFunction_1.default)({
         input: userId,
         type: 'number',
-        required: true,
+        required: true
     });
     activeCode = (0, commonFunction_1.default)({
         input: activeCode,
         type: 'string',
         required: true,
         minLength: 8,
-        maxLength: 8,
+        maxLength: 8
     });
     if (userId === null || activeCode === null) {
         return res.status(400).json({
@@ -157,14 +157,51 @@ UserController.active = async (req, res) => {
         message: 'Active success'
     });
 };
-UserController.getAll = async (req, res) => {
-    const [data] = await user_1.default.getAll();
-    const newList = data.map((element) => {
-        return {
-            name: element.name,
-            email: element.email
-        };
+UserController.changePassword = async (req, res) => {
+    var _b;
+    const token = (_b = req.headers.authorization) === null || _b === void 0 ? void 0 : _b.split(' ')[1];
+    const payload = jsonwebtoken_1.default.verify(token, 'nmtungofficial');
+    const userId = payload['id'];
+    let password = req.body.password;
+    password = (0, commonFunction_1.default)({
+        input: password,
+        minLength: 8,
+        maxLength: 50,
+        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+        required: false,
+        type: 'string'
     });
-    return res.status(200).json(newList);
+    if (password === null) {
+        return res.status(400).json({
+            message: 'Invalid input'
+        });
+    }
+    const hashPassword = await bcrypt_1.default.hash(password, 12);
+    await user_1.default.changePassword(userId, hashPassword);
+    return res.status(200).json({
+        message: 'Change password success'
+    });
+};
+UserController.getInformation = async (req, res) => {
+    let userId = Number.parseInt(req.query.id);
+    userId = (0, commonFunction_1.default)({
+        input: userId,
+        required: false,
+        type: 'number',
+    });
+    let [data] = await user_1.default.getById(userId);
+    if (data.length === 0) {
+        return res.status(404).json({
+            message: 'User not found'
+        });
+    }
+    let temp = Object.assign({}, data)['0'];
+    delete temp.password;
+    delete temp.codeActive;
+    delete temp.expCodeActive;
+    return res.status(200).json({
+        message: 'Get information success',
+        data: temp,
+    });
 };
 exports.default = UserController;

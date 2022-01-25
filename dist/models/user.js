@@ -7,9 +7,6 @@ const database_1 = __importDefault(require("../config/database"));
 class User {
     constructor() {
     }
-    static getAll() {
-        return database_1.default.execute('select * from user');
-    }
     static getByEmail(email) {
         return database_1.default.execute('select * from user where email = ?', [email]);
     }
@@ -25,6 +22,9 @@ class User {
     }
     static active(id) {
         return database_1.default.execute('update user set codeActive = NULL, expCodeActive = NULL where id = ?', [id]);
+    }
+    static changePassword(id, password) {
+        return database_1.default.execute('update user set password = ? where id = ?', [password, id]);
     }
 }
 exports.default = User;
