@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 
 import userRouter from './routers/userRouter'
 import productRouter from './routers/productRouter'
+import testRouter from './routers/testRouter'
 
 const app = express()
 
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
 
 app.use('/', userRouter)
 app.use('/', productRouter)
+app.use('/', testRouter)
 app.use('/', (req, res) => {
   return res.status(200).json({
     message: 'Welcome to my API :) this is documentation for the API: https://documenter.getpostman.com/view/15242317/UVXetJnL'
