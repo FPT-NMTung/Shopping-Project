@@ -38,7 +38,7 @@ class ProductController {
 
     const [data] = await Product.search(query, limit)
     if (req.headers.authorization) {
-      const tokenPayLoad = jwt.verify(req.headers.authorization!.split(' ')[1], 'nmtungofficial') as JwtPayload
+      const tokenPayLoad = jwt.verify(req.headers.authorization!.split(' ')[1], process.env.SECRET_KEY!) as JwtPayload
       await SearchHistory.addHistory(tokenPayLoad['id'] as string, query)
     }
 

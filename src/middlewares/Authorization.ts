@@ -13,7 +13,7 @@ const AuthorizationRouter = (req: Request, res: Response, next: NextFunction) =>
   const token = tokenHeader.split(' ')[1]
 
   try {
-    jwt.verify(token, 'nmtungofficial')
+    jwt.verify(token, process.env.SECRET_KEY!)
   } catch (e) {
     res.status(401).json({
       message: 'Not authenticated'

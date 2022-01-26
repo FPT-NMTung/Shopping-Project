@@ -7,10 +7,16 @@ router.post('/user/sign-up', UserController.signUp)
 
 router.post('/user/login', UserController.login)
 
-router.post('/user/active', UserController.active)
+router.patch('/user/active', AuthorizationRouter, UserController.active)
 
-router.post('/user/change-password', AuthorizationRouter, UserController.changePassword)
+router.patch('/user/change-password', AuthorizationRouter, UserController.changePassword)
 
 router.get('/user/get-user-info', UserController.getInformation)
+
+router.post('/user/send-email-forgot-password', UserController.sendEmailForgotPassword)
+
+router.patch('/user/reset-password', UserController.changePasswordByCodeForgotPassword)
+
+router.put('/user/update-information', AuthorizationRouter, UserController.updateInformation)
 
 export default router
