@@ -220,10 +220,13 @@ class UserController {
     }
 
     let temp = Object.assign({}, data)['0']
+    temp.isActive = (temp.codeActive === null)
 
     delete temp.password
     delete temp.codeActive
     delete temp.expCodeActive
+    delete temp.codeForgotPassword
+    delete temp.expCodeForgotPassword
 
     return res.status(200).json({
       message: 'Get information success',
