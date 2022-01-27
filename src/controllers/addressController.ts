@@ -1,6 +1,7 @@
 import {Request, Response} from 'express'
 import Address from '../models/address'
 import verifyInput from '../common/commonFunction'
+import jwt, {JwtPayload} from 'jsonwebtoken'
 
 class AddressController {
   public static getProvince = async (req: Request, res: Response) => {
@@ -17,7 +18,7 @@ class AddressController {
     provinceId = verifyInput({
       input: provinceId,
       type: 'number',
-      required: true,
+      required: true
     }) as number
 
     const [data] = await Address.getDistrict(provinceId)
@@ -42,7 +43,7 @@ class AddressController {
     districtId = verifyInput({
       input: districtId,
       type: 'number',
-      required: true,
+      required: true
     }) as number
 
     const [data] = await Address.getWard(districtId)
@@ -59,6 +60,44 @@ class AddressController {
     return res.status(200).json({
       message: 'Get ward success',
       data: result
+    })
+  }
+
+  public static getAllAddress = async (req: Request, res: Response) => {
+    const token = (req.headers.authorization as string).split(' ')[1]
+    const payload = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload
+    const userId = payload.id
+
+    const [data] = await Address.getAllAddress(userId)
+
+    return res.status(200).json({
+      message: 'Get all address success',
+      data: data
+    })
+  }
+
+  public static deleteAddress = async (req: Request, res: Response) => {
+    const token = (req.headers.authorization as string).split(' ')[1]
+    const payload = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload
+    const userId = payload.id
+
+    let addressId = Number.parseInt(req.body.id as string)
+    addressId = verifyInput({
+      input: addressId,
+      type: 'number',
+      required: true
+    }) as number
+
+    if (addressId === null) {
+      return res.status(400).json({
+        message: 'Invalid input'
+      })
+    }
+
+    await Address.deleteAddress(userId, addressId)
+
+    return res.status(200).json({
+      message: 'Delete address success'
     })
   }
 }
