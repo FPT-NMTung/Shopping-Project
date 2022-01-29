@@ -17,7 +17,7 @@ router.post('/address/create', AuthorizationRouter) //missing controller
 
 router.post('/address/update', AuthorizationRouter) //missing controller
 
-router.get('/address/get', AuthorizationRouter) //missing controller
+router.get('/address/get', AuthorizationRouter) //Mon - NTDuong
 
 router.patch('/address/set-default', AuthorizationRouter) //missing controller
 

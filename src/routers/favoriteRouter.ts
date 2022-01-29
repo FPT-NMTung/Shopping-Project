@@ -2,12 +2,10 @@ import express from 'express'
 import AuthorizationRouter from '../middlewares/Authorization'
 const router = express.Router()
 
-router.get('/favorites', AuthorizationRouter) //missing controller
+router.get('/favorites', AuthorizationRouter) //Mon - NTDuong
 
-router.get('/favorite/get', AuthorizationRouter) //missing controller
+router.post('/favorite/add', AuthorizationRouter) //Mon - NTDuong
 
-router.post('/favorite/add', AuthorizationRouter) //missing controller
-
-router.delete('/favorite/delete', AuthorizationRouter) //missing controller
+router.delete('/favorite/delete', AuthorizationRouter) //Mon - NTDuong
 
 export default router
