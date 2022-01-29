@@ -13,4 +13,12 @@ router.get('/address/get-all', AuthorizationRouter, AddressController.getAllAddr
 
 router.delete('/address/delete', AuthorizationRouter, AddressController.deleteAddress)
 
+router.post('/address/create', AuthorizationRouter) //missing controller
+
+router.post('/address/update', AuthorizationRouter) //missing controller
+
+router.get('/address/get', AuthorizationRouter) //missing controller
+
+router.patch('/address/set-default', AuthorizationRouter) //missing controller
+
 export default router
