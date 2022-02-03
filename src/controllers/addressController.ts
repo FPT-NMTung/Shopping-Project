@@ -100,6 +100,198 @@ class AddressController {
       message: 'Delete address success'
     })
   }
+
+  public static create = async (req: Request, res: Response) => {
+    let fullName = req.body.fullName as string
+    let phone = req.body.phone as string
+    let provinceId = Number.parseInt(req.body.provinceId as string)
+    let districtId = Number.parseInt(req.body.districtId as string)
+    let wardId = Number.parseInt(req.body.wardId as string)
+    let detail = req.body.detail as string
+
+    fullName = verifyInput({
+      input: fullName,
+      type: 'string',
+      required: true,
+      minLength: 2,
+      maxLength: 100
+    }) as string
+
+    phone = verifyInput({
+      input: phone,
+      type: 'string',
+      required: true,
+      min: 10,
+      max: 10
+    }) as string
+
+    provinceId = verifyInput({
+      input: provinceId,
+      type: 'number',
+      required: true
+    }) as number
+
+    districtId = verifyInput({
+      input: districtId,
+      type: 'number',
+      required: true
+    }) as number
+
+    wardId = verifyInput({
+      input: wardId,
+      type: 'number',
+      required: true
+    }) as number
+
+    detail = verifyInput({
+      input: detail,
+      type: 'string',
+      required: true,
+      minLength: 2,
+      maxLength: 100
+    }) as string
+
+    if (fullName === null || phone === null || provinceId === null || districtId === null || wardId === null || detail === null) {
+      return res.status(400).json({
+        message: 'Invalid input'
+      })
+    }
+
+    const token = (req.headers.authorization as string).split(' ')[1]
+    const payload = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload
+    const userId = payload.id
+
+    const [search] = await Address.getAllAddress(userId)
+    let isDefault = false
+    if (search.length === 0) {
+      isDefault = true
+    }
+
+    await Address.create(userId, fullName, phone, provinceId, districtId, wardId, detail, isDefault)
+
+    return res.status(200).json({
+      message: 'Create address success'
+    })
+  }
+
+  public static update = async (req: Request, res: Response) => {
+    let fullName = req.body.fullName as string
+    let phone = req.body.phone as string
+    let provinceId = Number.parseInt(req.body.provinceId as string)
+    let districtId = Number.parseInt(req.body.districtId as string)
+    let wardId = Number.parseInt(req.body.wardId as string)
+    let detail = req.body.detail as string
+    let addressId = Number.parseInt(req.body.id as string)
+
+    fullName = verifyInput({
+      input: fullName,
+      type: 'string',
+      required: true,
+      minLength: 2,
+      maxLength: 100
+    }) as string
+
+    phone = verifyInput({
+      input: phone,
+      type: 'string',
+      required: true,
+      min: 10,
+      max: 10
+    }) as string
+
+    provinceId = verifyInput({
+      input: provinceId,
+      type: 'number',
+      required: true
+    }) as number
+
+    districtId = verifyInput({
+      input: districtId,
+      type: 'number',
+      required: true
+    }) as number
+
+    wardId = verifyInput({
+      input: wardId,
+      type: 'number',
+      required: true
+    }) as number
+
+    detail = verifyInput({
+      input: detail,
+      type: 'string',
+      required: true,
+      minLength: 2,
+      maxLength: 100
+    }) as string
+
+    addressId = verifyInput({
+      input: addressId,
+      type: 'number',
+      required: true
+    }) as number
+
+    if (fullName === null || phone === null || provinceId === null || districtId === null || wardId === null || detail === null || addressId === null) {
+      return res.status(400).json({
+        message: 'Invalid input'
+      })
+    }
+
+    const token = (req.headers.authorization as string).split(' ')[1]
+    const payload = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload
+    const userId = payload.id
+
+    const [search] = await Address.getAddress(addressId, userId)
+    if (search.length === 0) {
+      return res.status(400).json({
+        message: 'Address not found'
+      })
+    }
+
+    await Address.update(userId, addressId, fullName, phone, provinceId, districtId, wardId, detail)
+
+    return res.status(200).json({
+      message: 'Update address success'
+    })
+  }
+
+  public static updateDefault = async (req: Request, res: Response) => {
+    let addressId = Number.parseInt(req.body.id as string)
+
+    addressId = verifyInput({
+      input: addressId,
+      type: 'number',
+      required: true
+    }) as number
+
+    if (addressId === null) {
+      return res.status(400).json({
+        message: 'Invalid input'
+      })
+    }
+
+    const token = (req.headers.authorization as string).split(' ')[1]
+    const payload = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload
+    const userId = payload.id
+
+    const [searchAddress] = await Address.getAddress(addressId, userId)
+    if (searchAddress.length === 0) {
+      return res.status(400).json({
+        message: 'Address not found'
+      })
+    }
+
+    const [search] = await Address.getAddressDefault(userId)
+    if (search.length !== 0) {
+      await Address.updateDefault(userId, search[0].id, false)
+    }
+
+    await Address.updateDefault(userId, addressId, true)
+
+    return res.status(200).json({
+      message: 'Update default address success'
+    })
+  }
 }
 
 export default AddressController

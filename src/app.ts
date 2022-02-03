@@ -19,15 +19,18 @@ app.use((req, res, next) => {
   next()
 })
 
+app.get('/', (req, res) => {
+  return res.redirect('https://www.google.com')
+})
 app.use('/', userRouter)
 app.use('/', productRouter)
 app.use('/', testRouter)
 app.use('/', addressRouter)
 app.use('/', favoriteRouter)
 app.use('/', historySearchRouter)
-app.use('/', (req, res) => {
-  return res.status(200).json({
-    message: 'Welcome to my API :) this is documentation for the API: https://documenter.getpostman.com/view/15242317/UVXetJnL'
+app.all('*', (req, res) => {
+  return res.status(404).json({
+    message: 'API not found'
   })
 })
 

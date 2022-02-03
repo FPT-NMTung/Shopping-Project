@@ -1,6 +1,7 @@
 import express from 'express'
 import AddressController from '../controllers/addressController'
 import AuthorizationRouter from '../middlewares/Authorization'
+import Address from '../models/address'
 const router = express.Router()
 
 router.get('/address/province', AddressController.getProvince)
@@ -13,12 +14,12 @@ router.get('/address/get-all', AuthorizationRouter, AddressController.getAllAddr
 
 router.delete('/address/delete', AuthorizationRouter, AddressController.deleteAddress)
 
-router.post('/address/create', AuthorizationRouter) //missing controller
+router.post('/address/create', AuthorizationRouter, AddressController.create)
 
-router.post('/address/update', AuthorizationRouter) //missing controller
+router.put('/address/update', AuthorizationRouter, AddressController.update)
 
 router.get('/address/get', AuthorizationRouter) //Mon - NTDuong
 
-router.patch('/address/set-default', AuthorizationRouter) //missing controller
+router.patch('/address/update-default', AuthorizationRouter, AddressController.updateDefault)
 
 export default router
