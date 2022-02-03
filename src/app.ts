@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-  return res.redirect('https://www.google.com')
+  return res.redirect('https://documenter.getpostman.com/view/15242317/UVXetJnL')
 })
 app.use('/', userRouter)
 app.use('/', productRouter)
