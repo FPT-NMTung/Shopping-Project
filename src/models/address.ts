@@ -20,8 +20,33 @@ class Address {
     , [userId]) as Promise<RowDataPacket[]>
   }
 
+  public static getAddress(id: number, userId: number): Promise<RowDataPacket[]> {
+    return db.execute('SELECT * FROM address where id = ? and userId = ?'
+    , [id, userId]) as Promise<RowDataPacket[]>
+  }
+
+  public static getAddressDefault(userId: string): Promise<RowDataPacket[]> {
+    return db.execute('SELECT * FROM address where isDefault = 1 and userId = ?',
+      [userId]) as Promise<RowDataPacket[]>
+  }
+
   public static deleteAddress(userId: number, addressId: number): Promise<RowDataPacket[]> {
     return db.execute('DELETE FROM address where userId = ? and id = ?', [userId, addressId]) as Promise<RowDataPacket[]>
+  }
+
+  public static create (userId: number, fullName: string, phone: string, provinceId: number, districtId: number, wardId: number, detail: string, isDefault: boolean): Promise<RowDataPacket[]> {
+    return db.execute('INSERT INTO address (userId, fullName, phone, provinceId, districtId, wardId, detail, isDefault, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [userId, fullName, phone, provinceId, districtId, wardId, detail, isDefault, new Date(), new Date()]) as Promise<RowDataPacket[]>
+  }
+
+  public static update (userId: number, addressId: number, fullName: string, phone: string, provinceId: number, districtId: number, wardId: number, detail: string): Promise<RowDataPacket[]> {
+    return db.execute('UPDATE address SET fullName = ?, phone = ?, provinceId = ?, districtId = ?, wardId = ?, detail = ?, updatedAt = ? WHERE userId = ? and id = ?',
+      [fullName, phone, provinceId, districtId, wardId, detail, new Date(), userId, addressId]) as Promise<RowDataPacket[]>
+  }
+
+  public static updateDefault (userId: number, addressId: number, isDefault: boolean): Promise<RowDataPacket[]> {
+    return db.execute('UPDATE address SET isDefault = ?, updatedAt = ? WHERE userId = ? and id = ?',
+      [isDefault, new Date(), userId, addressId]) as Promise<RowDataPacket[]>
   }
 }
 
