@@ -24,9 +24,18 @@ DB_PASSWORD=*********
 DB_PORT=*********
 
 SENDGRID_API_KEY=*********
+
+SECRET_KEY=*********
 ```
 
 Done environment!
+
+## Database
+
+Go to this link for download [Schema](https://nmtung-my.sharepoint.com/:f:/g/personal/admin_nmtung_onmicrosoft_com/EuEsA37s1fxDhaS0A9myg7YBtK7qipJB3WpkN6teJaJOMg?e=gsP9bl).
+
+If you got error when connect to database: `--require_secure_transport:ON`.
+use this command: `SET PERSIST require_secure_transport=OFF;`
 
 ## How to start
 
