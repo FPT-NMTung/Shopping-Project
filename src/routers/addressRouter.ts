@@ -18,7 +18,7 @@ router.post('/address/create', AuthorizationRouter, AddressController.create)
 
 router.put('/address/update', AuthorizationRouter, AddressController.update)
 
-router.get('/address/get', AuthorizationRouter) //Mon - NTDuong
+router.get('/address/get', AuthorizationRouter, AddressController.getAddressById)
 
 router.patch('/address/update-default', AuthorizationRouter, AddressController.updateDefault)
 
