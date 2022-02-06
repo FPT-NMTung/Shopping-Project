@@ -292,6 +292,37 @@ class AddressController {
       message: 'Update default address success'
     })
   }
+
+  public static getAddressById = async (req: Request, res: Response) =>{
+    let id = Number.parseInt(req.query.id as string)
+
+    id = verifyInput({
+      input: id,
+      required: true,
+      type: "number"
+    }) as number
+
+    if (id === null) {
+      return res.status(400).json({
+        message: 'Invalid input'
+      })
+    }
+
+    const [selectAddress] = await Address.getAddressById(id)
+
+    if (selectAddress.length === 0) {
+      return res.status(404).json({
+        message: 'Address not found'
+      })
+    }
+
+    const temp = selectAddress[0]
+
+    return res.status(200).json({
+      message: 'Get address success',
+      data: temp
+    })
+  }
 }
 
 export default AddressController
