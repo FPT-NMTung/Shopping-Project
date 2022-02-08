@@ -1,8 +1,9 @@
 import express from 'express'
 import AuthorizationRouter from '../middlewares/Authorization'
+import OrderController from '../controllers/orderController'
 const router = express.Router()
 
-router.get('/orders', AuthorizationRouter) //missing controller
+router.get('/orders', AuthorizationRouter, OrderController.getAllOrders) //missing controller
 
 router.post('/order/add', AuthorizationRouter) //missing controller
 
