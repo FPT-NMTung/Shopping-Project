@@ -8,7 +8,7 @@ import SendMail from '../config/mailManager'
 import cloudinary from '../config/cloudinary'
 
 class UserController {
-  public static signUp = async (req: Request, res: Response): Promise<Response> => {
+  public static signUp = async (req: Request, res: Response) => {
     let email = req.body.email as string
     let password = req.body.password as string
 
@@ -61,13 +61,14 @@ class UserController {
     SendMail.sendMail(content, function (err, a) {
       if (err) {
         res.status(500).json({
-          message: 'Internal server error'
+          message: 'Internal server error',
+          data: err.message
         })
       }
-    })
 
-    return res.status(200).json({
-      message: 'User created'
+      return res.status(200).json({
+        message: 'User created'
+      })
     })
   }
 
@@ -279,13 +280,14 @@ class UserController {
     SendMail.sendMail(content, function (err, a) {
       if (err) {
         res.status(500).json({
-          message: 'Internal server error'
+          message: 'Internal server error',
+          data: err.message
         })
       }
-    })
 
-    return res.status(200).json({
-      message: 'Send email success'
+      return res.status(200).json({
+        message: 'Send email success'
+      })
     })
   }
 
