@@ -35,21 +35,23 @@ class Address {
   }
 
   public static create (userId: number, fullName: string, phone: string, provinceId: number, districtId: number, wardId: number, detail: string, isDefault: boolean): Promise<RowDataPacket[]> {
-    return db.execute('INSERT INTO address (userId, fullName, phone, provinceId, districtId, wardId, detail, isDefault, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [userId, fullName, phone, provinceId, districtId, wardId, detail, isDefault, new Date(), new Date()]) as Promise<RowDataPacket[]>
+    return db.execute('INSERT INTO address (userId, fullName, phone, provinceId, districtId, wardId, detail, isDefault) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [userId, fullName, phone, provinceId, districtId, wardId, detail, isDefault]) as Promise<RowDataPacket[]>
   }
 
   public static update (userId: number, addressId: number, fullName: string, phone: string, provinceId: number, districtId: number, wardId: number, detail: string): Promise<RowDataPacket[]> {
-    return db.execute('UPDATE address SET fullName = ?, phone = ?, provinceId = ?, districtId = ?, wardId = ?, detail = ?, updatedAt = ? WHERE userId = ? and id = ?',
-      [fullName, phone, provinceId, districtId, wardId, detail, new Date(), userId, addressId]) as Promise<RowDataPacket[]>
+    return db.execute('UPDATE address SET fullName = ?, phone = ?, provinceId = ?, districtId = ?, wardId = ?, detail = ? WHERE userId = ? and id = ?',
+      [fullName, phone, provinceId, districtId, wardId, detail, userId, addressId]) as Promise<RowDataPacket[]>
   }
 
   public static updateDefault (userId: number, addressId: number, isDefault: boolean): Promise<RowDataPacket[]> {
-    return db.execute('UPDATE address SET isDefault = ?, updatedAt = ? WHERE userId = ? and id = ?',
-      [isDefault, new Date(), userId, addressId]) as Promise<RowDataPacket[]>
+    return db.execute('UPDATE address SET isDefault = ? WHERE userId = ? and id = ?',
+      [isDefault, userId, addressId]) as Promise<RowDataPacket[]>
   }
-  public static getAddressById (id: number): Promise<RowDataPacket[]> {
-    return db.execute('select * from address where id = ?', [id]) as Promise<RowDataPacket[]>
+
+  public static getAddressById (id: number, userId: number): Promise<RowDataPacket[]> {
+    return db.execute('select * from address where id = ? and userId = ?',
+      [id, userId]) as Promise<RowDataPacket[]>
   }
 }
 
