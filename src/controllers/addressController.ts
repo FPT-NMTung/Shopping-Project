@@ -308,7 +308,11 @@ class AddressController {
       })
     }
 
-    const [selectAddress] = await Address.getAddressById(id)
+    const token = (req.headers.authorization as string).split(' ')[1]
+    const payload = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload
+    const userId = payload.id
+
+    const [selectAddress] = await Address.getAddressById(id, userId)
 
     if (selectAddress.length === 0) {
       return res.status(404).json({
