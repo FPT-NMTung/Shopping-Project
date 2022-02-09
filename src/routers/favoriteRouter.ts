@@ -7,6 +7,6 @@ router.get('/favorites', AuthorizationRouter, FavoriteController.getAllFavorites
 
 router.post('/favorite/add', AuthorizationRouter) //Mon - NTDuong
 
-router.delete('/favorite/delete', AuthorizationRouter) //Mon - NTDuong
+router.delete('/favorite/delete', AuthorizationRouter, FavoriteController.favoriteDelete) //Mon - NTDuong
 
 export default router
