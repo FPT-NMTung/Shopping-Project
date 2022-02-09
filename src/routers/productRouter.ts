@@ -7,4 +7,10 @@ router.get('/products', ProductController.getAllProduct)
 
 router.get('/product/search', ProductController.searchProduct)
 
+router.get('/product/get-top-trending', ProductController.getTopTrending)
+
+router.get('/product/get-top-newest', ProductController.getTopNewestProduct)
+
+router.get('/product/get-top-discount', ProductController.getTopDiscountProducts)
+
 export default router

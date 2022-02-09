@@ -3,6 +3,7 @@ import Order from '../models/order'
 import verifyInput from '../common/commonFunction'
 import jwt, {JwtPayload} from 'jsonwebtoken'
 import Address from '../models/address'
+import Product from '../models/product'
 
 class OrderController {
   public static getAllOrders = async (req: Request, res: Response) => {
@@ -227,8 +228,14 @@ class OrderController {
       return [userId, element.productId, addressId, element.quantity]
     })
 
+    const updateData = select.map((element: any) => {
+      return [element.productId, element.quantity]
+    })
+
     await Order.checkOutProduct([result])
     await Order.deleteAllProductInOrder(userId)
+
+    await Product.updateQuantitySold(updateData)
 
     return res.status(200).json({
       message: 'Successfully check out'
