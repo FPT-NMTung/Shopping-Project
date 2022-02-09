@@ -1,6 +1,5 @@
 import {RowDataPacket} from "mysql2";
 import db from "../config/database";
-import Address from "./address";
 
 class Category {
 
