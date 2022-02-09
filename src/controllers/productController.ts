@@ -47,6 +47,33 @@ class ProductController {
       result: data
     })
   }
+
+  public static getTopTrending = async (req: Request, res: Response): Promise<Response> => {
+    const [data] = await Product.getTopTrendingProducts()
+
+    return res.status(200).json({
+      message: 'Get top trending products success',
+      result: data
+    })
+  }
+
+  public static getTopNewestProduct = async (req: Request, res: Response): Promise<Response> => {
+    const [data] = await Product.getTopNewestProducts()
+
+    return res.status(200).json({
+      message: 'Get top newest products success',
+      result: data
+    })
+  }
+
+  public static getTopDiscountProducts = async (req: Request, res: Response): Promise<Response> => {
+    const [data] = await Product.getTopDiscountProducts()
+
+    return res.status(200).json({
+      message: 'Get top discount products success',
+      result: data
+    })
+  }
 }
 
 export default ProductController

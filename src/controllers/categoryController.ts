@@ -1,17 +1,31 @@
-import {Request, Response} from "express";
-import Category from "../models/category";
+import {Request, Response} from 'express'
+import Category from '../models/category'
 
-class CategoryController{
+class CategoryController {
   public static getAllCategories = async (req: Request, res: Response) => {
     const [getCategories] = await Category.getAllCategories()
-    if(getCategories.length === 0){
-      return res.status(400).json({
-        message : 'Category not found'
-      })
-    }
+
     return res.status(200).json({
-      message : 'Get categories success',
-      data : getCategories
+      message: 'Get categories success',
+      data: getCategories
+    })
+  }
+
+  public static getTopFourCategories = async (req: Request, res: Response) => {
+    const [getCategories] = await Category.getTopCategories(4)
+
+    const result = getCategories.map((category: any) => {
+      return {
+        id: category.id,
+        name: category.name,
+        createdAt: category.created_at,
+        updatedAt: category.updated_at
+      }
+    })
+
+    return res.status(200).json({
+      message: 'Get top categories success',
+      data: result
     })
   }
 }
