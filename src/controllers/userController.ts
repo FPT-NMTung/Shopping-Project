@@ -207,12 +207,9 @@ class UserController {
   }
 
   public static getInformation = async (req: Request, res: Response) => {
-    let userId = Number.parseInt(req.query.id as string)
-    userId = verifyInput({
-      input: userId,
-      required: false,
-      type: 'number'
-    }) as number
+    const token = (req.headers.authorization as string).split(' ')[1]
+    const payload = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload
+    const userId = payload.id
 
     let [data] = await User.getById(userId)
 
