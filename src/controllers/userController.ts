@@ -119,10 +119,12 @@ class UserController {
       name: searchUser[0].name
     }, process.env.SECRET_KEY!)
 
-    return res.status(200).json({
-      message: 'Login success',
-      token: token
-    })
+    setTimeout(() => {
+      return res.status(200).json({
+        message: 'Login success',
+        token: token
+      })
+    }, 5000)
   }
 
   public static active = async (req: Request, res: Response) => {
