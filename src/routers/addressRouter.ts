@@ -1,7 +1,6 @@
 import express from 'express'
 import AddressController from '../controllers/addressController'
 import AuthorizationRouter from '../middlewares/Authorization'
-import Address from '../models/address'
 const router = express.Router()
 
 router.get('/address/province', AddressController.getProvince)
