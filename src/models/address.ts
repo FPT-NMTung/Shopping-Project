@@ -49,8 +49,9 @@ class Address {
       [isDefault, userId, addressId]) as Promise<RowDataPacket[]>
   }
 
-  public static getAddressById (id: number): Promise<RowDataPacket[]> {
-    return db.execute('select * from address where id = ?', [id]) as Promise<RowDataPacket[]>
+  public static getAddressById (id: number, userId: number): Promise<RowDataPacket[]> {
+    return db.execute('select * from address where id = ? and userId = ?',
+      [id, userId]) as Promise<RowDataPacket[]>
   }
 }
 

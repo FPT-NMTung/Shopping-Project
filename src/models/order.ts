@@ -44,20 +44,19 @@ class Order {
       '       o.quantity,\n' +
       '       o.createdAt,\n' +
       '       o.updatedAt\n' +
-      'from `order` o\n' +
+      'from `order_history` o\n' +
       '         left join product p on p.id = o.productId\n' +
       '         left join address a on a.id = o.addressId\n' +
       '         left join province p2 on a.provinceId = p2.id\n' +
       '         left join district d on a.districtId = d.id\n' +
       '         left join ward w on a.wardId = w.id\n' +
-      'where o.userId = 7\n' +
-      '  and o.addressId is not null\n',
+      'where o.userId = ?',
       [userId]) as Promise<RowDataPacket[]>
   }
 
   public static addProductToCart = (productId: number, quantity: number, userId: number): Promise<RowDataPacket[]> => {
-    return db.execute('insert into `order` (userId, productId, addressId, quantity, createdAt, updatedAt) values (?, ?, null, ?, ?, ?)',
-      [userId, productId, quantity, new Date(), new Date()]) as Promise<RowDataPacket[]>
+    return db.execute('insert into `order` (userId, productId, quantity) values (?, ?, ?)',
+      [userId, productId, quantity]) as Promise<RowDataPacket[]>
   }
 
   public static getOrderById = (id: number, userId: number): Promise<RowDataPacket[]> => {
@@ -70,12 +69,30 @@ class Order {
       [productId, userId]) as Promise<RowDataPacket[]>
   }
 
-  public static updateQuantity = (id: number, quantity: number, userId: number): Promise<RowDataPacket[]> => {
-    return db.execute('update `order` set quantity = ?, updatedAt = ? where id = ? and userId = ?',
-      [quantity, new Date(), id, userId]) as Promise<RowDataPacket[]>
+  public static updateQuantity = (productId: number, quantity: number, userId: number): Promise<RowDataPacket[]> => {
+    return db.execute('update `order` set quantity = ? where productId = ? and userId = ?',
+      [quantity, productId, userId]) as Promise<RowDataPacket[]>
   }
 
+  public static deleteProductFromOrder = (productId: number, userId: number): Promise<RowDataPacket[]> => {
+    return db.execute('delete from `order` where productId = ? and userId = ?',
+      [productId, userId]) as Promise<RowDataPacket[]>
+  }
 
+  public static getAllProductAndQuantityInOrder(userId: number): Promise<RowDataPacket[]> {
+    return db.execute('select o.productId, o.quantity from `order` o where userId = ?',
+      [userId]) as Promise<RowDataPacket[]>
+  }
+
+  public static checkOutProduct = (listProduct: number[][]): Promise<RowDataPacket[]> => {
+    return db.query('insert into order_history (userId, productId, addressId, quantity) values ?',
+      listProduct) as Promise<RowDataPacket[]>
+  }
+
+  public static deleteAllProductInOrder = (userId: number): Promise<RowDataPacket[]> => {
+    return db.execute('delete from `order` where userId = ?',
+      [userId]) as Promise<RowDataPacket[]>
+  }
 }
 
 export default Order
