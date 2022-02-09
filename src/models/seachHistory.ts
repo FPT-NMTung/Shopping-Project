@@ -6,11 +6,8 @@ class SearchHistory {
   }
 
   public static addHistory(userId: string, query: string): Promise<RowDataPacket[]> {
-    const createdAt = new Date()
-    const updatedAt = new Date()
-
-    return db.query('INSERT INTO search_history (userId, value, createdAt, updatedAt) VALUES (?, ?, ?, ?)',
-      [userId, query, createdAt, updatedAt]) as Promise<RowDataPacket[]>
+    return db.query('INSERT INTO search_history (userId, value) VALUES (?, ?)',
+      [userId, query]) as Promise<RowDataPacket[]>
   }
 }
 

@@ -15,30 +15,29 @@ class User {
 
   public static createUser(email: string, password: string, activeCode: string): Promise<RowDataPacket[]> {
     const createdAt = new Date()
-    const updatedAt = new Date()
     // after 15 minutes, the active code will be expired
     const expiredAt = new Date(createdAt.getTime() + 15 * 60 * 1000)
 
     return db.execute(
-      'insert into user (email, password, createdAt, updatedAt, codeActive, expCodeActive) values (?, ?, ?, ?, ?, ?)',
-      [email, password, createdAt, updatedAt, activeCode, expiredAt]) as Promise<RowDataPacket[]>
+      'insert into user (email, password, codeActive, expCodeActive) values (?, ?, ?, ?)',
+      [email, password, activeCode, expiredAt]) as Promise<RowDataPacket[]>
   }
 
   public static active(id: number) {
-    return db.execute('update user set codeActive = NULL, expCodeActive = NULL, updatedAt = ? where id = ?',
-      [new Date(), id]) as Promise<RowDataPacket[]>
+    return db.execute('update user set codeActive = NULL, expCodeActive = NULL where id = ?',
+      [id]) as Promise<RowDataPacket[]>
   }
 
   public static changePassword(id: number, password: string) {
-    return db.execute('update user set password = ?, updatedAt = ? where id = ?',
-      [password, new Date(), id]) as Promise<RowDataPacket[]>
+    return db.execute('update user set password = ? where id = ?',
+      [password, id]) as Promise<RowDataPacket[]>
   }
 
   public static updateCodeForgotPassword(id: number, code: string) {
     const expiredAt = new Date(new Date().getTime() + 15 * 60 * 1000)
 
-    return db.execute('update user set codeForgotPassword = ?, expCodeForgotPassword = ?, updatedAt = ? where id = ?',
-      [code, expiredAt, new Date(), id]) as Promise<RowDataPacket[]>
+    return db.execute('update user set codeForgotPassword = ?, expCodeForgotPassword = ? where id = ?',
+      [code, expiredAt, id]) as Promise<RowDataPacket[]>
   }
 
   public static updateInformation(
@@ -50,8 +49,8 @@ class User {
     id: number
   ) {
     return db.execute(
-      'update user set firstName = ?, lastName = ?, gender = ?, phone = ?, avatar = ?, updatedAt = ? where id = ?',
-      [firstName, lastName, gender, phone, avatar, new Date(), id]) as Promise<RowDataPacket[]>
+      'update user set firstName = ?, lastName = ?, gender = ?, phone = ?, avatar = ? where id = ?',
+      [firstName, lastName, gender, phone, avatar, id]) as Promise<RowDataPacket[]>
   }
 }
 
