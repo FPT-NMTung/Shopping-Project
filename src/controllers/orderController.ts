@@ -223,7 +223,7 @@ class OrderController {
       })
     }
 
-    const result = select.map((element) => {
+    const result = select.map((element: any) => {
       return [userId, element.productId, addressId, element.quantity]
     })
 
