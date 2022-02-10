@@ -19,8 +19,8 @@ class CategoryController {
         id: category.id,
         name: category.name,
         image: category.image,
-        createdAt: category.created_at,
-        updatedAt: category.updated_at
+        createdAt: category.createdAt,
+        updatedAt: category.updatedAt
       }
     })
 
