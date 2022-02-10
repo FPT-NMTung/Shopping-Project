@@ -1,6 +1,5 @@
-const templateActiveCode = (email: string, code: string): string => {
-  return `
-  <!DOCTYPE html>
+const TemplateForgotPassword = (email: string, code: string) => {
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -100,10 +99,10 @@ const templateActiveCode = (email: string, code: string): string => {
             </div>
             <hr>
             <div class="content__body">
-                <h1 class="title">Complete registration</h1>
-                <p class="param">Please enter this confirmation code in the window where you started your account:</p>
+                <h1 class="title">Complete forgot password</h1>
+                <p class="param">Please enter this confirmation code in the window where you forgot your password:</p>
                 <p class="code">${code}</p>
-                <p class="param">If you didn't create an account in JUMBO Clothes Store, please ignore this email.</p></p>
+                <p class="param">If you didn't forget password an account in JUMBO Clothes Store, please ignore this email.</p></p>
             </div>
         </div>
         <div class="copyright">
@@ -114,8 +113,7 @@ const templateActiveCode = (email: string, code: string): string => {
         </div>
     </div>
 </body>
-</html>
-`
+</html>`
 }
 
-export default templateActiveCode
+export default TemplateForgotPassword
