@@ -18,6 +18,7 @@ class CategoryController {
       return {
         id: category.id,
         name: category.name,
+        image: category.image,
         createdAt: category.created_at,
         updatedAt: category.updated_at
       }
