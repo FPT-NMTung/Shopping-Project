@@ -9,6 +9,7 @@ class Category {
   public static getTopCategories(limit: number): Promise<RowDataPacket[]> {
     return db.execute('select category.id,\n' +
       '       category.name,\n' +
+      '       category.image,\n' +
       '       category.createdAt,\n' +
       '       category.updatedAt,\n' +
       '       count(productId) \'quantity\'\n' +
