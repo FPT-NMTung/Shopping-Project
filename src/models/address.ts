@@ -26,7 +26,8 @@ class Address {
       'left join province p on address.provinceId = p.id\n' +
       'left join district d on address.districtId = d.id\n' +
       'left join ward w on address.wardId = w.id\n' +
-      'where userId = ?;'
+      'where userId = ?\n' +
+      'order by address.isDefault desc ;'
     , [userId]) as Promise<RowDataPacket[]>
   }
 
