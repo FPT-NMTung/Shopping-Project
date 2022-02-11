@@ -1,6 +1,5 @@
 import db from '../config/database'
 import {RowDataPacket} from 'mysql2'
-import user from './user'
 
 class Address {
   public static getProvince(): Promise<RowDataPacket[]> {
