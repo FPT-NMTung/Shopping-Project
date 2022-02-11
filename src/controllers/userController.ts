@@ -119,12 +119,10 @@ class UserController {
       name: searchUser[0].name
     }, process.env.SECRET_KEY!)
 
-    setTimeout(() => {
-      return res.status(200).json({
-        message: 'Login success',
-        token: token
-      })
-    }, 5000)
+    return res.status(200).json({
+       message: 'Login success',
+       token: token
+    })
   }
 
   public static active = async (req: Request, res: Response) => {
@@ -426,6 +424,47 @@ class UserController {
 
     res.status(200).json({
       message: 'Update information success'
+    })
+  }
+
+  public static sendEmailVerifyAccount = async (req: Request, res: Response) => {
+    const payload = jwt.verify(req.headers.authorization?.split(' ')[1]!, process.env.SECRET_KEY!) as JwtPayload
+    const userId = payload.id
+
+    const randomActiveCode = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    const activeCode = Array.from(Array(8).keys()).map(i => randomActiveCode[Math.floor(Math.random() * randomActiveCode.length)]).join(
+      '')
+
+    const [data] = await User.getById(userId)
+
+    if (data[0].codeActive === null) {
+      return res.status(400).json({
+        message: 'User already active'
+      })
+    }
+
+    await User.setCodeActive(activeCode, userId)
+
+    // send email
+    const content = {
+      to: [data[0].email],
+      from: 'JUMBO Clothes Store <admin@nmtung.xyz>',
+      subject: 'Active code | Shopping',
+      text: 'Active code | Shopping',
+      html: templateActiveCode(data[0].email, activeCode)
+    }
+
+    SendMail.sendMail(content, function (err, a) {
+      if (err) {
+        return res.status(500).json({
+          message: 'Internal server error',
+          data: err.message
+        })
+      }
+
+      return res.status(200).json({
+        message: 'Send email successfully'
+      })
     })
   }
 }

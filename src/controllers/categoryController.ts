@@ -20,7 +20,8 @@ class CategoryController {
         name: category.name,
         image: category.image,
         createdAt: category.createdAt,
-        updatedAt: category.updatedAt
+        updatedAt: category.updatedAt,
+        quantity: category.quantity
       }
     })
 

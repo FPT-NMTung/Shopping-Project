@@ -28,6 +28,15 @@ class User {
       [id]) as Promise<RowDataPacket[]>
   }
 
+  public static setCodeActive(code: string, userId: number) {
+    const createdAt = new Date()
+    // after 15 minutes, the active code will be expired
+    const expiredAt = new Date(createdAt.getTime() + 15 * 60 * 1000)
+
+    return db.execute('update user set codeActive = ?, expCodeActive = ? where id = ?',
+      [code, expiredAt, userId]) as Promise<RowDataPacket[]>
+  }
+
   public static changePassword(id: number, password: string) {
     return db.execute('update user set password = ? where id = ?',
       [password, id]) as Promise<RowDataPacket[]>

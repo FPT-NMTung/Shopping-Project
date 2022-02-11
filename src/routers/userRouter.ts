@@ -19,4 +19,6 @@ router.patch('/user/reset-password', UserController.changePasswordByCodeForgotPa
 
 router.put('/user/update-information', AuthorizationRouter, UserController.updateInformation)
 
+router.post('/user/send-email-active-account', AuthorizationRouter, UserController.sendEmailVerifyAccount)
+
 export default router
