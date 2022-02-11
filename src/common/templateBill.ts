@@ -1,6 +1,11 @@
-const TemplateBill = (elements: any) => {
-  let tax = 0;
-  let total = 0;
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
+
+const TemplateBill = (elements: any[]) => {
+  let tax
+  let total = 0
 
   const array = elements.map((element: any) => {
 
@@ -10,7 +15,7 @@ const TemplateBill = (elements: any) => {
     <table>
       <tr class="abc">
         <td class="bill_title">${element['name']}</td>
-        <td class="bill_detail">$ ${element['price'].toFixed(2) * element['quantity']}</td>
+        <td class="bill_detail">${formatter.format(element['price'])}</td>
       </tr>
       <tr class="def">
         <td class="bill_title">Quantity</td>
@@ -35,7 +40,7 @@ const TemplateBill = (elements: any) => {
     <style>
         .body {
             background-color : #EFF2F7;
-            font-family      : "Sarabun", Helvetica, Arial, sans-serif;
+            font-family      : Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
             color            : #333333;
             padding          : 20px 40px;
 
@@ -130,8 +135,8 @@ const TemplateBill = (elements: any) => {
             <div class="header__title">
                 <div class="header__title__summary">
                     <h1>Receipt from (JUMBO Clothes Store)</h1>
-                    <p class="header__title__summary__money">$ ${total + tax}</p>
-                    <p class="header__title__summary__date">Paid August 7, 2022</p>
+                    <p class="header__title__summary__money">${formatter.format(total + tax)}</p>
+                    <p class="header__title__summary__date">Paid ${(new Date).toLocaleString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}</p>
                     <hr>
                 </div>
                 <img src="https://img.icons8.com/dotty/80/DADADA/paid-bill.png"/>
@@ -143,7 +148,7 @@ const TemplateBill = (elements: any) => {
                             <p>Card Number:</p>
                         </td>
                         <td class="header__card__value">
-                            <p>**** **** **** 3456</p>
+                            <p>Developer ...</p>
                         </td>
                     </tr>
                     <tr>
@@ -151,7 +156,7 @@ const TemplateBill = (elements: any) => {
                             <p>Card Holder:</p>
                         </td>
                         <td class="header__card__value">
-                            <p>Nguyen Manh Tung</p>
+                            <p>Developer ...</p>
                         </td>
                     </tr>
                     <tr>
@@ -159,7 +164,7 @@ const TemplateBill = (elements: any) => {
                             <p>Expiration Date:</p>
                         </td>
                         <td class="header__card__value">
-                            <p>08/22</p>
+                            <p>Developer ...</p>
                         </td>
                     </tr>
                 </table>
@@ -173,18 +178,18 @@ const TemplateBill = (elements: any) => {
             <table>
                 <tr class="abc">
                     <td class="bill_title">Subtotal</td>
-                    <td class="bill_detail">$ ${total}</td>
+                    <td class="bill_detail">${formatter.format(total)}</td>
                 </tr>
                 <tr class="def">
                     <td class="bill_title">Tax</td>
-                    <td class="bill_detail">$ ${tax}</td>
+                    <td class="bill_detail">${formatter.format(tax)}</td>
                 </tr>
             </table>
             <hr>
             <table>
                 <tr class="abc">
                     <td class="bill_title">Total</td>
-                    <td class="bill_detail">$ ${total + tax}</td>
+                    <td class="bill_detail">${formatter.format(total + tax)}</td>
                 </tr>
             </table>
         </div>

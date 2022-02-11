@@ -70,9 +70,16 @@ class AddressController {
 
     const [data] = await Address.getAllAddress(userId)
 
+    const temp = data.map((element:any) => {
+      delete element.provinceId
+      delete element.districtId
+      delete element.wardId
+      return element
+    })
+
     return res.status(200).json({
       message: 'Get all address success',
-      data: data
+      data: temp
     })
   }
 
