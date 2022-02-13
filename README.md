@@ -1,4 +1,13 @@
+<div style="text-align: center">
+<img src="https://res.cloudinary.com/dvuqazqqs/image/upload/v1644473486/ICON11_pzxxoj.png" height="140">
+
+<h3>JUMBO Clothes Store</h3>
+
 ![GitHub repo size](https://img.shields.io/github/repo-size/FPT-NMTung/Shopping-Project) ![GitHub repo size](https://img.shields.io/tokei/lines/github/FPT-NMTung/Shopping-Project) ![Vercel](https://img.shields.io/github/deployments/FPT-NMTung/Shopping-Project/production?label=vercel&logo=vercel&logoColor=vercel)
+
+
+</div>
+
 
 ## Setup
 
