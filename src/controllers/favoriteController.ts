@@ -38,7 +38,7 @@ class FavoriteController {
     const [checkFavorite] = await Favorite.getFavoriteByProductId(productId, userId);
     if (checkFavorite.length === 0) {
       return res.status(400).json({
-        message: 'Favorite not found'
+        message: 'Favorite is not exist '
       })
     }
 
@@ -69,10 +69,16 @@ class FavoriteController {
       })
     }
 
-    await Favorite.favoriteAdd(userId, productId);
+    const [checkFavorite] = await Favorite.getFavoriteByProductId(productId, userId);
+    if (checkFavorite.length === 0) {
+      await Favorite.favoriteAdd(userId, productId);
+      return res.status(201).json({
+        message: 'Add favorite success'
+      })
+    }
 
-    return res.status(200).json({
-      message: 'Add favorite success',
+    return res.status(400).json({
+      message: 'Favorite is exist',
     })
   }
 }
