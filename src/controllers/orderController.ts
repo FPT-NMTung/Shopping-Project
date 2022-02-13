@@ -3,6 +3,11 @@ import Order from '../models/order'
 import verifyInput from '../common/commonFunction'
 import jwt, {JwtPayload} from 'jsonwebtoken'
 import Address from '../models/address'
+import Product from '../models/product'
+import SendMail from '../config/mailManager'
+import TemplateForgotPassword from '../common/templateForgotPassword'
+import templateBill from '../common/templateBill'
+import User from '../models/user'
 
 class OrderController {
   public static getAllOrders = async (req: Request, res: Response) => {
@@ -227,8 +232,31 @@ class OrderController {
       return [userId, element.productId, addressId, element.quantity]
     })
 
+    const updateData = select.map((element: any) => {
+      return [element.productId, element.quantity]
+    })
+
     await Order.checkOutProduct([result])
     await Order.deleteAllProductInOrder(userId)
+
+    await Product.updateQuantitySold(updateData)
+
+    const [userSelect] = await User.getById(userId)
+    const data = select.map((element: any) => {
+      return {
+        name: element.name,
+        quantity: element.quantity,
+        price: element.price,
+      }
+    })
+    console.log(data)
+    await SendMail.sendMail({
+      to: [userSelect[0].email],
+      from: 'JUMBO Clothes Store <admin@nmtung.xyz>',
+      subject: 'Forgot password code | Shopping',
+      text: 'Forgot password code | Shopping',
+      html: templateBill(data)
+    })
 
     return res.status(200).json({
       message: 'Successfully check out'

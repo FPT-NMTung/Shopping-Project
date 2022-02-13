@@ -6,6 +6,7 @@ import verifyInput from '../common/commonFunction'
 import templateActiveCode from '../common/templateActiveCode'
 import SendMail from '../config/mailManager'
 import cloudinary from '../config/cloudinary'
+import TemplateForgotPassword from '../common/templateForgotPassword'
 
 class UserController {
   public static signUp = async (req: Request, res: Response) => {
@@ -51,8 +52,7 @@ class UserController {
     // send email
     const content = {
       to: [email],
-      from: 'nmtung.temp@gmail.com',
-      fromname: 'Shopping | Project', // We set the `fromname` parameter here
+      from: 'JUMBO Clothes Store <admin@nmtung.xyz>',
       subject: 'Active code | Shopping',
       text: 'Active code | Shopping',
       html: templateActiveCode(email, activeCode)
@@ -60,7 +60,7 @@ class UserController {
 
     SendMail.sendMail(content, function (err, a) {
       if (err) {
-        res.status(500).json({
+        return res.status(500).json({
           message: 'Internal server error',
           data: err.message
         })
@@ -119,10 +119,12 @@ class UserController {
       name: searchUser[0].name
     }, process.env.SECRET_KEY!)
 
-    return res.status(200).json({
-      message: 'Login success',
-      token: token
-    })
+    setTimeout(() => {
+      return res.status(200).json({
+        message: 'Login success',
+        token: token
+      })
+    }, 5000)
   }
 
   public static active = async (req: Request, res: Response) => {
@@ -205,12 +207,9 @@ class UserController {
   }
 
   public static getInformation = async (req: Request, res: Response) => {
-    let userId = Number.parseInt(req.query.id as string)
-    userId = verifyInput({
-      input: userId,
-      required: false,
-      type: 'number'
-    }) as number
+    const token = (req.headers.authorization as string).split(' ')[1]
+    const payload = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload
+    const userId = payload.id
 
     let [data] = await User.getById(userId)
 
@@ -268,18 +267,15 @@ class UserController {
     // send email
     const content = {
       to: [email],
-      from: 'nmtung.temp@gmail.com',
-      fromname: 'Shopping | Project', // We set the `fromname` parameter here
+      from: 'JUMBO Clothes Store <admin@nmtung.xyz>',
       subject: 'Forgot password code | Shopping',
       text: 'Forgot password code | Shopping',
-      html: `<h1>Forgot password code</h1>` +
-        `<p>Your forgot password code is: ${code}</p>` +
-        `<p>Please use in 15 minutes</p>`
+      html: TemplateForgotPassword(email, code)
     }
 
     SendMail.sendMail(content, function (err, a) {
       if (err) {
-        res.status(500).json({
+        return res.status(500).json({
           message: 'Internal server error',
           data: err.message
         })

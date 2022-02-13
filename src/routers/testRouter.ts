@@ -4,4 +4,8 @@ const router = express.Router()
 
 router.post('/test/send-email', TestController.sendEmail)
 
+router.post('/test/send-email-bill', TestController.sendEmailBill)
+
+router.post('/test/send-code-active', TestController.sendMailActive)
+
 export default router

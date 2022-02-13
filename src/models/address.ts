@@ -16,7 +16,17 @@ class Address {
   }
 
   public static getAllAddress(userId: number): Promise<RowDataPacket[]> {
-    return db.execute('SELECT * FROM address where userId = ?'
+    return db.execute('select address.*,\n' +
+      '       p.name \'provinceName\',\n' +
+      '       d.name \'districtName\',\n' +
+      '       d.prefix \'districtPrefix\',\n' +
+      '       w.name \'wardName\',\n' +
+      '       w.prefix \'wardPrefix\'\n' +
+      'from address\n' +
+      'left join province p on address.provinceId = p.id\n' +
+      'left join district d on address.districtId = d.id\n' +
+      'left join ward w on address.wardId = w.id\n' +
+      'where userId = ?;'
     , [userId]) as Promise<RowDataPacket[]>
   }
 
