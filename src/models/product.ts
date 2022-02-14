@@ -35,6 +35,14 @@ class Product {
   public static getTopDiscountProducts(): Promise<RowDataPacket[]> {
     return db.query('select * from product where discount >= 75 order by discount desc limit 10') as Promise<RowDataPacket[]>
   }
+
+  public static getByCategory(categoryId: number): Promise<RowDataPacket[]> {
+    return db.query('select\n' +
+      '       p.*\n' +
+      'from product_and_category\n' +
+      'left join product p on product_and_category.productId = p.id\n' +
+      'where categoryId = ?;', [categoryId]) as Promise<RowDataPacket[]>
+  }
 }
 
 export default Product

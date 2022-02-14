@@ -77,6 +77,15 @@ class ProductController {
       result: data
     })
   }
+
+  public static getByCategory  = async (req: Request, res: Response): Promise<Response> => {
+    const [data] = await Product.getByCategory(Number.parseInt(req.query.categoryId as string))
+
+    return res.status(200).json({
+      message: 'Get products by category success',
+      result: data
+    })
+  }
 }
 
 export default ProductController
