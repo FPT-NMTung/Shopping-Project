@@ -13,4 +13,6 @@ router.get('/product/get-top-newest', ProductController.getTopNewestProduct)
 
 router.get('/product/get-top-discount', ProductController.getTopDiscountProducts)
 
+router.get('/product/get-by-category', ProductController.getByCategory)
+
 export default router
