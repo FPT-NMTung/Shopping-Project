@@ -353,7 +353,6 @@ class UserController {
     let lastName = req.body.lastName as string
     let phone = req.body.phone as string
     let gender = req.body.gender as number
-    let email = req.body.email as string
 
     image = verifyInput({
       input: image,
@@ -386,34 +385,9 @@ class UserController {
       type: 'number',
       required: true,
     }) as number
-    email = verifyInput({
-      input: email,
-      type: 'string',
-      required: true,
-      minLength: 5,
-      maxLength: 300
-    }) as string
-
-    if (email === null) {
-      return res.status(400).json({
-        message: 'Invalid input'
-      })
-    }
-
-    const [searchUser] = await User.getByEmail(email)
-    if (searchUser.length !== 0) {
-      return res.status(400).json({
-        message: 'Email is existed'
-      })
-    }
 
     const payload = jwt.verify(req.headers.authorization?.split(' ')[1]!, process.env.SECRET_KEY!) as JwtPayload
     const userId = payload.id
-
-    // const [searchUser1] = await User.getById(userId)
-    // const user = searchUser1[0]
-    //
-    // const needActive = user.email !== email
 
     let urlImage = null
     if (image !== null) {
