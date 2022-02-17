@@ -5,7 +5,8 @@
   "main": "src/app.ts",
   "scripts": {
     "start": "npx tsc -w",
-    "dev": "npx nodemon dist/app.js"
+    "dev": "npx nodemon dist/app.js",
+    "gcp-build": "tsc -p ."
   },
   "author": "",
   "license": "ISC",
