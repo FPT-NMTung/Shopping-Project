@@ -1,6 +1,7 @@
 import express from 'express'
 import UserController from '../controllers/userController'
 import AuthorizationRouter from '../middlewares/Authorization'
+
 const router = express.Router()
 
 router.post('/user/sign-up', UserController.signUp)
@@ -11,7 +12,7 @@ router.patch('/user/active', AuthorizationRouter, UserController.active)
 
 router.patch('/user/change-password', AuthorizationRouter, UserController.changePassword)
 
-router.get('/user/get-user-info', UserController.getInformation)
+router.get('/user/get-user-info', AuthorizationRouter, UserController.getInformation)
 
 router.post('/user/send-email-forgot-password', UserController.sendEmailForgotPassword)
 
