@@ -73,7 +73,7 @@ class ProductController {
 
     return res.status(200).json({
       message: 'Get products success',
-      result: data
+      data: data
     })
   }
 
@@ -82,7 +82,7 @@ class ProductController {
 
     return res.status(200).json({
       message: 'Get top trending products success',
-      result: data
+      data: data
     })
   }
 
@@ -91,7 +91,7 @@ class ProductController {
 
     return res.status(200).json({
       message: 'Get top newest products success',
-      result: data
+      data: data
     })
   }
 
@@ -100,7 +100,7 @@ class ProductController {
 
     return res.status(200).json({
       message: 'Get top discount products success',
-      result: data
+      data: data
     })
   }
 
@@ -109,7 +109,7 @@ class ProductController {
 
     return res.status(200).json({
       message: 'Get products by category success',
-      result: data
+      data: data
     })
   }
 }
