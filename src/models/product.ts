@@ -43,6 +43,11 @@ class Product {
       'left join product p on product_and_category.productId = p.id\n' +
       'where categoryId = ?;', [categoryId]) as Promise<RowDataPacket[]>
   }
+
+  public static getProduct(id: number): Promise<RowDataPacket[]> {
+    return db.query('select * from product where id = ?'
+    , [id]) as Promise<RowDataPacket[]>
+  }
 }
 
 export default Product

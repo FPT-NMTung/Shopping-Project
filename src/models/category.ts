@@ -22,5 +22,13 @@ class Category {
       'order by quantity desc limit ?;', [limit.toString()]) as Promise<RowDataPacket[]>
   }
 
+  public static getCategoryWithProductId(id: number): Promise<RowDataPacket[]> {
+    return db.execute('select\n' +
+      '       c.*\n' +
+      'from product_and_category\n' +
+      'join category c on c.id = product_and_category.categoryId\n' +
+      'where productId = ?;'
+    ,[id]) as Promise<RowDataPacket[]>
+  }
 }
 export default Category
