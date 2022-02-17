@@ -3,6 +3,7 @@ import verifyInput from '../common/commonFunction'
 import Product from '../models/product'
 import SearchHistory from '../models/seachHistory'
 import jwt, {JwtPayload} from 'jsonwebtoken'
+import Category from '../models/category'
 
 class ProductController {
   public static getAllProduct = async (req: Request, res: Response): Promise<Response> => {
@@ -10,6 +11,31 @@ class ProductController {
     return res.status(200).json({
       message: 'Get all product success',
       data: data
+    })
+  }
+
+  public static getProduct = async (req: Request, res: Response): Promise<Response> => {
+    let id = Number.parseInt(req.query.id as string)
+    id = verifyInput({
+      input: id,
+      type: 'number',
+      required: true,
+    }) as number
+
+    const [data] = await Product.getProduct(id)
+    if (data.length === 0) {
+      return res.status(404).json({
+        message: 'Product not found',
+      })
+    }
+
+    const [dataCategory] = await Category.getCategoryWithProductId(data[0].id)
+    return res.status(200).json({
+      message: 'Get product success',
+      data: {
+        ...data[0],
+        category: dataCategory
+      }
     })
   }
 
