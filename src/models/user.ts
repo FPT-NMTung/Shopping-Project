@@ -61,6 +61,18 @@ class User {
       'update user set firstName = ?, lastName = ?, gender = ?, phone = ?, avatar = ? where id = ?',
       [firstName, lastName, gender, phone, avatar, id]) as Promise<RowDataPacket[]>
   }
+
+  public static updateInformationWithoutImage (
+    firstName: string | null,
+    lastName: string | null,
+    gender: number | null,
+    phone: string | null,
+    id: number
+  ) {
+    return db.execute(
+      'update user set firstName = ?, lastName = ?, gender = ?, phone = ? where id = ?',
+      [firstName, lastName, gender, phone, id]) as Promise<RowDataPacket[]>
+  }
 }
 
 export default User

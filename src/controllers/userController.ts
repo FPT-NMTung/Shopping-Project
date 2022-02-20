@@ -354,11 +354,6 @@ class UserController {
     let phone = req.body.phone as string
     let gender = req.body.gender as number
 
-    image = verifyInput({
-      input: image,
-      type: 'string',
-      required: true,
-    }) as string
     firstName = verifyInput({
       input: firstName,
       type: 'string',
@@ -394,7 +389,11 @@ class UserController {
       urlImage = (await cloudinary.v2.uploader.upload(image)).secure_url
     }
 
-    await User.updateInformation(firstName, lastName, gender, phone, urlImage, userId)
+    if (image === null) {
+      await User.updateInformationWithoutImage(firstName, lastName, gender, phone, userId)
+    } else {
+      await User.updateInformation(firstName, lastName, gender, phone, urlImage, userId)
+    }
 
     res.status(200).json({
       message: 'Update information success'
