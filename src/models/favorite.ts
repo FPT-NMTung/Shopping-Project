@@ -3,7 +3,11 @@ import db from '../config/database';
 
 class Favorite {
   public static getAllFavouritesById(userId : number): Promise<RowDataPacket[]> {
-  return db.execute('select * from favorite where userId = ?',[userId]) as Promise<RowDataPacket[]>;
+  return db.execute('select ' +
+    '       p.*\n' +
+    'from favorite\n' +
+    '         left join product p on p.id = favorite.productId\n' +
+    'where userId = ?;',[userId]) as Promise<RowDataPacket[]>;
   }
 
   public static favoriteDelete(productId : number,userId : number): Promise<RowDataPacket[]> {
