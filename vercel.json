@@ -6,16 +6,15 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "headers": [
     {
-      "src": "/(.*)",
-      "dest": "src/app.ts",
-      "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"],
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
-      }
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ],
+      "source": "src/app.ts"
     }
   ]
 }
