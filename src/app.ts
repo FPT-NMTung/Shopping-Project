@@ -10,6 +10,7 @@ import favoriteRouter from './routers/favoriteRouter'
 import historySearchRouter from './routers/historySearchRouter'
 import categoryRouter from './routers/categoryRouter'
 import orderRouter from './routers/orderRouter'
+import adminRouter from './routers/adminRouter'
 
 const app = express()
 
@@ -32,6 +33,7 @@ app.use('/', favoriteRouter)
 app.use('/', historySearchRouter)
 app.use('/', categoryRouter)
 app.use('/', orderRouter)
+app.use('/', adminRouter)
 app.all('*', (req, res) => {
   return res.status(404).json({
     message: 'API not found'
