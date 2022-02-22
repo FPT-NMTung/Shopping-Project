@@ -6,11 +6,15 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "headers": [
     {
-      "src": "/(.*)",
-      "dest": "src/app.ts",
-      "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "access-control-allow-origin",
+          "value": "*"
+        }
+      ]
     }
   ]
 }
