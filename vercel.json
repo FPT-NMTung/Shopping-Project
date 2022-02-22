@@ -6,15 +6,26 @@
       "use": "@vercel/node"
     }
   ],
-  "headers": [
+  "routes": [
     {
-      "source": "/*",
-      "headers": [
-        { "key": "Access-Control-Allow-Credentials", "value": "true" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
-        { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" }
-      ]
+      "src": "/(.*)",
+      "dest": "src/app.ts",
+      "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Max-Age": "3600",
+        "Content-Type": "application/json",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "Referrer-Policy": "same-origin",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Download-Options": "noopen",
+        "X-Permitted-Cross-Domain-Policies": "none",
+      }
     }
   ]
 }
