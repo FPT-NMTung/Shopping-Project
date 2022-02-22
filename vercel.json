@@ -15,16 +15,6 @@
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH",
         "Access-Control-Allow-Headers": "Content-Type, Authorization"
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Max-Age": "3600",
-        "Content-Type": "application/json",
-        "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "SAMEORIGIN",
-        "X-XSS-Protection": "1; mode=block",
-        "Referrer-Policy": "same-origin",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Download-Options": "noopen",
-        "X-Permitted-Cross-Domain-Policies": "none",
       }
     }
   ]
