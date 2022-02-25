@@ -18,12 +18,12 @@ const app = express()
 app.use(cors())
 
 app.use(bodyParser.json({limit: '2mb'}))
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', '*')
-  res.setHeader('Access-Control-Allow-Headers', '*')
-  next()
-})
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*')
+//   res.setHeader('Access-Control-Allow-Methods', '*')
+//   res.setHeader('Access-Control-Allow-Headers', '*')
+//   next()
+// })
 
 app.get('/', (req, res) => {
   return res.redirect('https://documenter.getpostman.com/view/15242317/UVXetJnL')
