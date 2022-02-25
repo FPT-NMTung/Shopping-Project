@@ -1,6 +1,7 @@
 require('dotenv').config()
 import express from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 
 import userRouter from './routers/userRouter'
 import productRouter from './routers/productRouter'
@@ -13,6 +14,8 @@ import orderRouter from './routers/orderRouter'
 import adminRouter from './routers/adminRouter'
 
 const app = express()
+
+app.use(cors())
 
 app.use(bodyParser.json({limit: '2mb'}))
 app.use((req, res, next) => {
