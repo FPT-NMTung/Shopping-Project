@@ -247,9 +247,9 @@ class OrderController {
         name: element.name,
         quantity: element.quantity,
         price: element.price,
+        discount: element.discount,
       }
     })
-    console.log(data)
     await SendMail.sendMail({
       to: [userSelect[0].email],
       from: 'JUMBO Clothes Store <admin@nmtung.xyz>',

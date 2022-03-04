@@ -9,13 +9,13 @@ const TemplateBill = (elements: any[]) => {
 
   const array = elements.map((element: any) => {
 
-    total += element['price'] * element['quantity']
+    total += ((element['price'] * (100 - element['discount'])) / 100) * element['quantity']
 
     return `
     <table>
       <tr class="abc">
         <td class="bill_title">${element['name']}</td>
-        <td class="bill_detail">${formatter.format(element['price'])}</td>
+        <td class="bill_detail">${formatter.format((element['price'] * (100 - element['discount'])) / 100)}</td>
       </tr>
       <tr class="def">
         <td class="bill_title">Quantity</td>
@@ -141,34 +141,6 @@ const TemplateBill = (elements: any[]) => {
                 </div>
                 <img src="https://img.icons8.com/dotty/80/DADADA/paid-bill.png"/>
             </div>
-            <div class="header__card">
-                <table>
-                    <tr>
-                        <td class="header__card__name">
-                            <p>Card Number:</p>
-                        </td>
-                        <td class="header__card__value">
-                            <p>Developer ...</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="header__card__name">
-                            <p>Card Holder:</p>
-                        </td>
-                        <td class="header__card__value">
-                            <p>Developer ...</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="header__card__name">
-                            <p>Expiration Date:</p>
-                        </td>
-                        <td class="header__card__value">
-                            <p>Developer ...</p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
         </div>
         <div class="content">
             <h2>Order Summary</h2>
@@ -184,12 +156,16 @@ const TemplateBill = (elements: any[]) => {
                     <td class="bill_title">Tax</td>
                     <td class="bill_detail">${formatter.format(tax)}</td>
                 </tr>
+                <tr class="def">
+                    <td class="bill_title">Fee</td>
+                    <td class="bill_detail">$2</td>
+                </tr>
             </table>
             <hr>
             <table>
                 <tr class="abc">
                     <td class="bill_title">Total</td>
-                    <td class="bill_detail">${formatter.format(total + tax)}</td>
+                    <td class="bill_detail">${formatter.format(total + tax + 2)}</td>
                 </tr>
             </table>
         </div>

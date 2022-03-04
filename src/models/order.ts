@@ -80,7 +80,7 @@ class Order {
   }
 
   public static getAllProductAndQuantityInOrder(userId: number): Promise<RowDataPacket[]> {
-    return db.execute('select o.productId, p.name, p.price, o.quantity from `order` o join product p on p.id = o.productId where userId = ?',
+    return db.execute('select o.productId, p.name, p.price, o.quantity, p.discount from `order` o join product p on p.id = o.productId where userId = ?',
       [userId]) as Promise<RowDataPacket[]>
   }
 
