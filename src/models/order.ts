@@ -23,7 +23,7 @@ class Order {
       [userId]) as Promise<RowDataPacket[]>
   }
 
-  public static getHistoryOrders = (userId: number): Promise<RowDataPacket[]> => {
+  public static getHistoryOrders = (userId: number, status: number): Promise<RowDataPacket[]> => {
     return db.execute('select \n' +
       '       p.name,\n' +
       '       p.id       \'productId\',\n' +
@@ -51,9 +51,9 @@ class Order {
       '         left join province p2 on a.provinceId = p2.id\n' +
       '         left join district d on a.districtId = d.id\n' +
       '         left join ward w on a.wardId = w.id\n' +
-      'where o.userId = ?\n' +
+      'where o.userId = ? and status = ?\n' +
       'order by status asc, createdAt desc ',
-      [userId]) as Promise<RowDataPacket[]>
+      [userId, status]) as Promise<RowDataPacket[]>
   }
 
   public static addProductToCart = (productId: number, quantity: number, userId: number): Promise<RowDataPacket[]> => {
