@@ -51,7 +51,8 @@ class Order {
       '         left join province p2 on a.provinceId = p2.id\n' +
       '         left join district d on a.districtId = d.id\n' +
       '         left join ward w on a.wardId = w.id\n' +
-      'where o.userId = ?',
+      'where o.userId = ?\n' +
+      'order by status asc, createdAt desc ',
       [userId]) as Promise<RowDataPacket[]>
   }
 
