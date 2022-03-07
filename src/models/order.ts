@@ -41,6 +41,7 @@ class Order {
       '       w.prefix \'prefixWard\',\n' +
       '       w.name \'nameWard\',\n' +
       '       a.detail,\n' +
+      '       o.status,\n' +
       '       o.quantity,\n' +
       '       o.createdAt,\n' +
       '       o.updatedAt\n' +

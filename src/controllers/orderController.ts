@@ -292,6 +292,7 @@ class OrderController {
           nameWard: element.nameWard,
           detail: element.detail
         },
+        status: element.status,
         quantity: element.quantity,
         createdAt: element.createdAt,
         updatedAt: element.updatedAt
