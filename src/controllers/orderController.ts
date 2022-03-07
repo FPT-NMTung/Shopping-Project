@@ -267,8 +267,10 @@ class OrderController {
     const token = (req.headers.authorization as string).split(' ')[1]
     const payload = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload
     const userId = payload.id
+    
+    const status = Number.parse(req.query.status as string)
 
-    const [select] = await Order.getHistoryOrders(userId)
+    const [select] = await Order.getHistoryOrders(userId, status)
 
     const temp = select.map((element: any) => {
       return {
@@ -292,7 +294,6 @@ class OrderController {
           nameWard: element.nameWard,
           detail: element.detail
         },
-        status: element.status,
         quantity: element.quantity,
         createdAt: element.createdAt,
         updatedAt: element.updatedAt
