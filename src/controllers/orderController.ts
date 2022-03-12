@@ -213,7 +213,7 @@ class OrderController {
     const payload = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload
     const userId = payload.id
 
-    const [addressSelect] = await Address.getAddressById(addressId, userId)
+    const [addressSelect] = await Address.getAddressDetailById(addressId, userId)
     if (addressSelect.length === 0) {
       return res.status(404).json({
         message: 'Address not found'
@@ -253,9 +253,9 @@ class OrderController {
     await SendMail.sendMail({
       to: [userSelect[0].email],
       from: 'JUMBO Clothes Store <admin@nmtung.xyz>',
-      subject: 'Forgot password code | Shopping',
-      text: 'Forgot password code | Shopping',
-      html: templateBill(data)
+      subject: 'Check-out Order Report | Shopping',
+      text: 'Check-out Order Report | Shopping',
+      html: templateBill(data, userSelect[0].email, addressSelect[0])
     })
 
     return res.status(200).json({

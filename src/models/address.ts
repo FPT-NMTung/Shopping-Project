@@ -63,6 +63,23 @@ class Address {
     return db.execute('select * from address where id = ? and userId = ?',
       [id, userId]) as Promise<RowDataPacket[]>
   }
+
+  public static getAddressDetailById (id: number, userId: number): Promise<RowDataPacket[]> {
+    return db.execute('select a.fullName,\n' +
+      '       a.detail,\n' +
+      '       a.phone,\n' +
+      '       p.name \'provinceName\',\n' +
+      '       d.prefix \'districtPrefix\',\n' +
+      '       d.name \'districtName\',\n' +
+      '       w.prefix \'wardPrefix\',\n' +
+      '       w.name \'wardName\'\n' +
+      'from address a\n' +
+      'left join province p on p.id = a.provinceId\n' +
+      'left join district d on d.id = a.districtId\n' +
+      'left join ward w on a.wardId = w.id\n' +
+      'where a.id = ? and a.userId = ?',
+      [id, userId]) as Promise<RowDataPacket[]>
+  }
 }
 
 export default Address

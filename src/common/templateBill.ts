@@ -1,9 +1,9 @@
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
-  currency: 'USD',
-});
+  currency: 'USD'
+})
 
-const TemplateBill = (elements: any[]) => {
+const TemplateBill = (elements: any[], email: string, address: any) => {
   let tax
   let total = 0
 
@@ -40,7 +40,7 @@ const TemplateBill = (elements: any[]) => {
     <style>
         .body {
             background-color : #EFF2F7;
-            font-family      : Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+            font-family      : sans-serif;
             color            : #333333;
             padding          : 20px 40px;
 
@@ -54,6 +54,16 @@ const TemplateBill = (elements: any[]) => {
             padding : 0;
 
             color   : #7a7a7a;
+        }
+        
+        .copyright {
+            width  : 500px;
+            margin : 20px 0;
+        }
+
+        .copyright > p {
+            text-align: center;
+            font-size : 10px;
         }
 
         .header,
@@ -136,10 +146,39 @@ const TemplateBill = (elements: any[]) => {
                 <div class="header__title__summary">
                     <h1>Receipt from (JUMBO Clothes Store)</h1>
                     <p class="header__title__summary__money">${formatter.format(total + tax)}</p>
-                    <p class="header__title__summary__date">Paid ${(new Date).toLocaleString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}</p>
-                    <hr>
+                    <p class="header__title__summary__date">Paid ${(new Date).toLocaleString('en-US',
+    {year: 'numeric', month: 'long', day: 'numeric'})}</p>
+            <hr>
                 </div>
                 <img src="https://img.icons8.com/dotty/80/DADADA/paid-bill.png"/>
+            </div>
+            <div class="header__card">
+                <table>
+                    <tr>
+                        <td class="header__card__name">
+                            <p>Full name:</p>
+                        </td>
+                        <td class="header__card__value">
+                            <p>${address['fullName']}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="header__card__name">
+                            <p>Address:</p>
+                        </td>
+                        <td class="header__card__value">
+                            <p>${address['detail']}, ${address['wardPrefix']} ${address['wardName']}, ${address['districtPrefix']} ${address['districtName']}, ${address['provinceName']}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="header__card__name">
+                            <p>Phone:</p>
+                        </td>
+                        <td class="header__card__value">
+                            <p>${address['phone']}</p>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="content">
@@ -157,7 +196,7 @@ const TemplateBill = (elements: any[]) => {
                     <td class="bill_detail">${formatter.format(tax)}</td>
                 </tr>
                 <tr class="def">
-                    <td class="bill_title">Fee</td>
+                    <td class="bill_title">Shipping fee</td>
                     <td class="bill_detail">$2</td>
                 </tr>
             </table>
@@ -168,6 +207,12 @@ const TemplateBill = (elements: any[]) => {
                     <td class="bill_detail">${formatter.format(total + tax + 2)}</td>
                 </tr>
             </table>
+        </div>
+        <div class="copyright">
+            <p>This message was sent to ${email} by JUMBO Clothes Store. To make sure you receive our
+                updates, add JUMBO Clothes Store to your address book or safe list.</p>
+            <br>
+            <p>JUMBO Clothes Store, Hoa Lac High Tech Park, Hanoi, Vietnam.</p>
         </div>
     </div>
 </body>
