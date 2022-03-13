@@ -21,6 +21,11 @@ class Favorite {
   public static favoriteAdd(userId : number, productId : number): Promise<RowDataPacket[]> {
     return db.execute('insert into favorite(userId, productId) values (?,?)',[userId, productId])as Promise<RowDataPacket[]>;
   }
+
+  public static checkFavorite(userId: number, productId: number): Promise<RowDataPacket[]> {
+    return db.execute('select * from favorite where userId = ? and productId = ?',
+      [userId, productId]) as Promise<RowDataPacket[]>;
+  }
 }
 
 export default Favorite;

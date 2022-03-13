@@ -4,6 +4,8 @@ import Product from '../models/product'
 import SearchHistory from '../models/seachHistory'
 import jwt, {JwtPayload} from 'jsonwebtoken'
 import Category from '../models/category'
+import Favorite from '../models/favorite'
+import address from '../models/address'
 
 class ProductController {
   public static getAllProduct = async (req: Request, res: Response): Promise<Response> => {
@@ -29,11 +31,27 @@ class ProductController {
       })
     }
 
+    const isLogin = req.headers.authorization !== undefined
+    let isFavorite = false
+
+    if (isLogin) {
+      const token = (req.headers.authorization as string).split(' ')[1]
+      const payload = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload
+      const userId = payload.id
+
+      const [t] = await Favorite.checkFavorite(userId, id)
+      console.log(t)
+      if (t.length !== 0) {
+        isFavorite = true
+      }
+    }
+
     const [dataCategory] = await Category.getCategoryWithProductId(data[0].id)
     return res.status(200).json({
       message: 'Get product success',
       data: {
         ...data[0],
+        isFavorite: isFavorite,
         category: dataCategory
       }
     })
