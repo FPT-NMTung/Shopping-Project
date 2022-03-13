@@ -1,5 +1,6 @@
 import express from 'express'
 import ProductController from '../controllers/productController'
+import AuthorizationRouter from '../middlewares/Authorization'
 
 const router = express.Router()
 
@@ -8,6 +9,8 @@ router.get('/products', ProductController.getAllProduct)
 router.post('/products-test', ProductController.getAllProduct)
 
 router.get('/product/get', ProductController.getProduct)
+
+router.get('/product/get-by-token', AuthorizationRouter, ProductController.getProductWithToken)
 
 router.get('/product/search', ProductController.searchProduct)
 
