@@ -19,4 +19,6 @@ router.get('/product/get-top-discount', ProductController.getTopDiscountProducts
 
 router.get('/product/get-by-category', ProductController.getByCategory)
 
+router.get('/product/get-by-category-similar', ProductController.getByCategorySimilar)
+
 export default router

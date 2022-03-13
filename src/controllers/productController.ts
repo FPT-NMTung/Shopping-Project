@@ -112,6 +112,20 @@ class ProductController {
       data: data
     })
   }
+
+  public static getByCategorySimilar  = async (req: Request, res: Response): Promise<Response> => {
+    const [data] = await Product.getByCategory(Number.parseInt(req.query.categoryId as string))
+    const productId = Number.parseInt(req.query.productId as string)
+
+    const temp = data.filter((item: any) => {
+      return item['id'] !== productId
+    })
+
+    return res.status(200).json({
+      message: 'Get products by category success',
+      data: temp
+    })
+  }
 }
 
 export default ProductController
