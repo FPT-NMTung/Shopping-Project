@@ -250,6 +250,7 @@ class OrderController {
         discount: element.discount,
       }
     })
+
     await SendMail.sendMail({
       to: [userSelect[0].email],
       from: 'JUMBO Clothes Store <admin@nmtung.xyz>',

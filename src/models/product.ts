@@ -20,7 +20,7 @@ class Product {
       'VALUES\n' +
       ' ? \n' +
       'ON DUPLICATE KEY UPDATE\n' +
-      ' id=VALUES(id), quantitySold=VALUES(quantitySold)+quantitySold',
+      ' id=VALUES(id), quantitySold=VALUES(quantitySold)+quantitySold, quantity=quantity-VALUES(quantitySold)',
       [resultString]) as Promise<RowDataPacket[]>
   }
 
