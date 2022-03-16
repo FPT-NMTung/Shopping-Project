@@ -236,6 +236,21 @@ class OrderController {
       return [element.productId, element.quantity]
     })
 
+    const [arrayProductCheck] = await Product.getMultipleProduct(select.map((element: any) => {
+      return element.productId
+    }))
+
+    for (let index = 0; index < arrayProductCheck.length; index++) {
+      const temp = result.find((item: any) => {
+        return item[1] === arrayProductCheck[index].id && arrayProductCheck[index].quantity - item[3] < 0
+      })
+      if (temp !== undefined) {
+        return res.status(400).json({
+          message: 'Product quantity is not enough'
+        })
+      }
+    }
+
     await Order.checkOutProduct([result])
     await Order.deleteAllProductInOrder(userId)
 

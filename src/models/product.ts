@@ -48,6 +48,10 @@ class Product {
     return db.query('select * from product where id = ?'
     , [id]) as Promise<RowDataPacket[]>
   }
+
+  public static getMultipleProduct(productId: number[]): Promise<RowDataPacket[]> {
+    return db.query('select * from product where id in (?)', [productId]) as Promise<RowDataPacket[]>
+  }
 }
 
 export default Product
