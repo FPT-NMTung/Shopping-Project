@@ -73,15 +73,15 @@ class OrderController {
 
     const [select] = await Order.getOrderByProductId(productId, userId)
     if (select.length > 0) {
-      if (select[0].quantity + quantity > 10) {
-        return res.status(400).json({
-          message: 'You can not add more than 10 quantity'
-        })
-      }
       const [product] = await Product.getProduct(productId)
       if (quantity + select[0].quantity > product[0].quantity) {
         return res.status(400).json({
           message: 'You can not add more than quantity of product'
+        })
+      }
+      if (select[0].quantity + quantity > 10) {
+        return res.status(400).json({
+          message: 'You can not add more than 10 quantity'
         })
       }
       await Order.updateQuantity(productId, quantity + select[0].quantity, userId)
