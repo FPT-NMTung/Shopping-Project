@@ -7,6 +7,7 @@ import templateActiveCode from '../common/templateActiveCode'
 import SendMail from '../config/mailManager'
 import cloudinary from '../config/cloudinary'
 import TemplateForgotPassword from '../common/templateForgotPassword'
+import templateChangePassword from '../common/templateChangePassword'
 
 class UserController {
   public static signUp = async (req: Request, res: Response) => {
@@ -230,8 +231,26 @@ class UserController {
     const hashPassword = await bcrypt.hash(password, 12)
     await User.changePassword(userId, hashPassword)
 
-    return res.status(200).json({
-      message: 'Change password success'
+    // send email
+    const content = {
+      to: [selectUser[0].email],
+      from: 'JUMBO Clothes Store <admin@nmtung.xyz>',
+      subject: 'Password changed | Shopping',
+      text: 'Password changed | Shopping',
+      html: templateChangePassword(selectUser[0].email)
+    }
+
+    SendMail.sendMail(content, function (err, a) {
+      if (err) {
+        return res.status(500).json({
+          message: 'Internal server error',
+          data: err.message
+        })
+      }
+
+      return res.status(200).json({
+        message: 'Change password success'
+      })
     })
   }
 
