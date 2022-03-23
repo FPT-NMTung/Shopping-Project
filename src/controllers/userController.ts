@@ -186,13 +186,44 @@ class UserController {
       minLength: 8,
       maxLength: 50,
       pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-      required: false,
+      required: true,
       type: 'string'
     }) as string
 
-    if (password === null) {
+    let oldPassword = req.body.oldPassword as string
+    oldPassword = verifyInput({
+      input: oldPassword,
+      minLength: 8,
+      maxLength: 50,
+      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+      required: true,
+      type: 'string'
+    }) as string
+
+    if (password === null || oldPassword === null) {
       return res.status(400).json({
         message: 'Invalid input'
+      })
+    }
+
+    const [selectUser] = await User.getById(userId)
+    if (selectUser.length === 0) {
+      return res.status(404).json({
+        message: 'User not found'
+      })
+    }
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, selectUser[0].password)
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        message: 'Old password is wrong'
+      })
+    }
+
+    const isPasswordSame = await bcrypt.compare(password, selectUser[0].password)
+    if (isPasswordSame) {
+      return res.status(409).json({
+        message: 'New password is same with old password'
       })
     }
 
