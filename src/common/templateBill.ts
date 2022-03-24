@@ -145,7 +145,7 @@ const TemplateBill = (elements: any[], email: string, address: any) => {
             <div class="header__title">
                 <div class="header__title__summary">
                     <h1>Receipt from (JUMBO Clothes Store)</h1>
-                    <p class="header__title__summary__money">${formatter.format(total + tax)}</p>
+                    <p class="header__title__summary__money">${formatter.format(total + tax + 2)}</p>
                     <p class="header__title__summary__date">Paid ${(new Date).toLocaleString('en-US',
     {year: 'numeric', month: 'long', day: 'numeric'})}</p>
             <hr>
