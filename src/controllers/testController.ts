@@ -114,6 +114,22 @@ class TestController {
       })
     })
   }
+
+  public static test = async (req: Request, res: Response) => {
+    return res.status(200).json({
+      message: 'success',
+      dummyData: [
+        {
+          id: 1,
+          name: 'product 1',
+        },
+        {
+          id: 2,
+          name: 'product 2',
+        },
+      ]
+    })
+  }
 }
 
 export default TestController
