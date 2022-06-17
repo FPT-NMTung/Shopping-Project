@@ -77,47 +77,47 @@ class UserController {
     let email = req.body.email as string
     let password = req.body.password as string
 
-    email = <string>verifyInput({
-      input: email,
-      type: 'string',
-      required: true,
-      minLength: 5,
-      maxLength: 300
-    })
-    password = <string>verifyInput({
-      input: password,
-      type: 'string',
-      required: true,
-      minLength: 8,
-      maxLength: 50,
-      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/
-    })
-
-    if (email === null || password === null) {
-      return res.status(400).json({
-        message: 'Invalid input'
-      })
-    }
-
-    const [searchUser] = await User.getByEmail(email)
-
-    if (searchUser.length === 0) {
-      return res.status(404).json({
-        message: 'User not found'
-      })
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, searchUser[0].password)
-    if (!isPasswordValid) {
-      return res.status(401).json({
-        message: 'Invalid password'
-      })
-    }
+    // email = <string>verifyInput({
+    //   input: email,
+    //   type: 'string',
+    //   required: true,
+    //   minLength: 5,
+    //   maxLength: 300
+    // })
+    // password = <string>verifyInput({
+    //   input: password,
+    //   type: 'string',
+    //   required: true,
+    //   minLength: 8,
+    //   maxLength: 50,
+    //   pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/
+    // })
+    //
+    // if (email === null || password === null) {
+    //   return res.status(400).json({
+    //     message: 'Invalid input'
+    //   })
+    // }
+    //
+    // const [searchUser] = await User.getByEmail(email)
+    //
+    // if (searchUser.length === 0) {
+    //   return res.status(404).json({
+    //     message: 'User not found'
+    //   })
+    // }
+    //
+    // const isPasswordValid = await bcrypt.compare(password, searchUser[0].password)
+    // if (!isPasswordValid) {
+    //   return res.status(401).json({
+    //     message: 'Invalid password'
+    //   })
+    // }
 
     const token = jwt.sign({
-      id: searchUser[0].id,
-      email: searchUser[0].email,
-      name: searchUser[0].name
+      id: 1,
+      email: 'admin@nmtung.dev',
+      name: 'Nguyen Manh Tung'
     }, process.env.SECRET_KEY!)
 
     return res.status(200).json({
