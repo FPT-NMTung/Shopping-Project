@@ -15,6 +15,9 @@ class TestController {
       maxLength: 300
     }) as string
 
+    const api_key = "84f8f5277b422567b12a50ad56e248c3-4f207195-c333082b"
+    const pu_api_key = "pubkey-b686b59191dea220fc1a1f4c7b595d06"
+
     // send email
     const content = {
       to: [email],
